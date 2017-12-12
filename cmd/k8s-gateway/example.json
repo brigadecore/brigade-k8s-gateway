@@ -1,0 +1,9 @@
+{
+  "project": "technosophos/k8s-gateway",
+  "filters": [
+    {"namespace": "kube-system", "action": "reject"},
+    {"kind": "Node", "action": "reject"},
+    {"kind": "Pod", "reasons": ["Killing"], "action": "reject"},
+    {"action":"accept"}
+  ]
+}
