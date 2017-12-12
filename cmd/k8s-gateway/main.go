@@ -22,7 +22,8 @@ import (
 	"k8s.io/client-go/util/workqueue"
 
 	"github.com/Azure/brigade/pkg/brigade"
-	// "github.com/Azure/brigade/pkg/storage/kube"
+	"github.com/Azure/brigade/pkg/storage"
+	"github.com/Azure/brigade/pkg/storage/kube"
 )
 
 // This is adapted from the Brigade controller.
@@ -60,6 +61,7 @@ func main() {
 	// creates the connection
 	config, err := clientcmd.BuildConfigFromFlags(master, kubeconfig)
 	if err != nil {
+		log.Println("Missing -kubectl?")
 		log.Fatal(err)
 	}
 
@@ -73,6 +75,7 @@ func main() {
 	// TODO: We need a way of passing in appropriate filter information here.
 	gw := newGateway(clientset, namespace)
 	gw.config = filters
+	gw.store = kube.New(clientset, namespace)
 	log.Printf("Listening in namespace %q for new events", namespace)
 
 	// Now let's start the controller
@@ -88,6 +91,7 @@ type gateway struct {
 	clientset kubernetes.Interface
 	namespace string
 	config    *Config
+	store     storage.Store
 
 	queue    workqueue.RateLimitingInterface
 	informer cache.Controller
@@ -242,9 +246,7 @@ func (this *gateway) createSecret(e *v1.Event) error {
 	}
 	j, _ := json.MarshalIndent(b, "", "  ")
 	log.Printf("Build: %s\n", j)
-	return nil
-	//store := kube.New(this.clientset, this.namespace)
-	//return store.CreateBuild(b)
+	return this.store.CreateBuild(b)
 }
 
 func (this *gateway) handleErr(err error, key interface{}) {

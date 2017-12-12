@@ -3,7 +3,7 @@
 
 [[projects]]
   name = "github.com/Azure/brigade"
-  packages = ["pkg/brigade"]
+  packages = ["pkg/brigade","pkg/storage/kube"]
   revision = "387aacc384d5824810afad8ef5660d2fb164860f"
   version = "v0.7.0"
 
@@ -146,6 +146,12 @@
   revision = "32fa128f234d041f196a9f3e0fea5ac9772c08e1"
 
 [[projects]]
+  name = "github.com/oklog/ulid"
+  packages = ["."]
+  revision = "d311cb43c92434ec4072dfbbda3400741d0a6337"
+  version = "v0.3.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/petar/GoLLRB"
   packages = ["llrb"]
@@ -224,6 +230,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "561a6cfc14b95b9d0839574634367cbdbfd5c39c7a1860569758573014b7dc8b"
+  inputs-digest = "acb4bf8b41b983d2d2c265ae6b520b289e491884158b82f7715255b8a873ad49"
   solver-name = "gps-cdcl"
   solver-version = 1
