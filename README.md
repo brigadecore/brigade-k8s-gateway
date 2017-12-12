@@ -5,11 +5,14 @@ events inside of Brigade.
 
 ## Installation
 
-You must have the Go toolchain, make, and dep installed. From there:
+You must have the Go toolchain, make, and dep installed. For Docker support, you
+will need to have Docker installed as well. From there:
 
 ```
-$ make bootstrap build
+$ make build
 ```
+
+To build a Docker image, you can `make docker-build`.
 
 ## Contributing
 
