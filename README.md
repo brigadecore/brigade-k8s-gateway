@@ -3,6 +3,8 @@
 This is a Brigade gateway that listens to the Kubernetes event stream and triggers
 events inside of Brigade.
 
+Issues for Brigade projects are all tracked [on the main Brigade project](https://github.com/Azure/brigade/issues).
+
 ## Installation
 
 You must have the Go toolchain, make, and dep installed. For Docker support, you
@@ -13,6 +15,14 @@ $ make build
 ```
 
 To build a Docker image, you can `make docker-build`.
+
+To install into your cluster:
+
+```
+$ helm inspect values charts/brigade-k8s-gateway > myvalues.yaml
+# edit myvalues.yaml
+$ helm install -f myvalues charts/brigade-k8s-gateway
+```
 
 ## Contributing
 
