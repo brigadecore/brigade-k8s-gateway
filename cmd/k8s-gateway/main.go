@@ -44,7 +44,7 @@ func main() {
 	flag.StringVar(&kubeconfig, "kubeconfig", "", "absolute path to the kubeconfig file")
 	flag.StringVar(&master, "master", "", "master url")
 	flag.StringVar(&namespace, "namespace", defaultNamespace(), "kubernetes namespace")
-	flag.StringVar(&configFile, "config", "", "path to JSON configuration file. If no file is passed, you get to drink from the fire hose.")
+	flag.StringVar(&configFile, "config", defaultConfig(), "path to JSON configuration file. If no file is passed, you get to drink from the fire hose.")
 	flag.Parse()
 
 	var filters = &Config{}
@@ -274,6 +274,10 @@ func defaultNamespace() string {
 		return ns
 	}
 	return v1.NamespaceDefault
+}
+
+func defaultConfig() string {
+	return os.Getenv("GATEWAY_CONFIG")
 }
 
 // Config represents a k8s-gateway configuration.

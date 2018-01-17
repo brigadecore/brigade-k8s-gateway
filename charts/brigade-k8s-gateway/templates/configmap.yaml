@@ -1,0 +1,18 @@
+{{ $fullname :=  include "gateway.fullname" . }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullname }}
+  labels:
+    app: {{ $fullname }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    role: gateway
+    type: kubernetes-events
+data:
+  filters.json: |
+    {
+      "project": {{ .Values.project | quote }},
+      "filters": {{ toJson .Values.filters }}
+    }

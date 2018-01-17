@@ -1,0 +1,31 @@
+# Set this to true to enable Kubernetes RBAC support (recommended)
+rbac:
+  enabled: false
+
+# Image configuration
+registry: deis
+name: brigade-k8s-gateway
+tag: latest
+pullPolicy: "IfNotPresent"
+
+# What to watch
+project: brigade-830c16d4aaf6f5490937ad719afd8490a5bcbef064d397411043ac
+
+# Define the filters that you want to run.
+# Filters are evaluated in orderr (top to bottom). Every filter must either
+# 'accept' or 'reject' an event. The final rule is the default rule, and
+# is typically merely of the form '- action: accept' or '- action: reject'
+filters:
+  # Ignore all events coming from kube-system
+  - namespace: kube-system
+    action: reject
+  # Ignore events on Nodes. We just care about Pods
+  - kind: Node
+    action: reject
+  # Ignore "Killing" messages for Pods
+  - kind: Pod
+    reasons:
+      - Killing
+    action: reject
+  # Accept anything else
+  - action: accept

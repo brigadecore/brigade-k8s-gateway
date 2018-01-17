@@ -1,5 +1,5 @@
 {
-  "project": "technosophos/k8s-gateway",
+  "project": "brigade-830c16d4aaf6f5490937ad719afd8490a5bcbef064d397411043ac",
   "filters": [
     {"namespace": "kube-system", "action": "reject"},
     {"kind": "Node", "action": "reject"},
