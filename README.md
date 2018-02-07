@@ -7,6 +7,16 @@ Issues for Brigade projects are all tracked [on the main Brigade project](https:
 
 ## Installation
 
+To install the latest image into your cluster:
+
+```
+$ helm inspect values charts/brigade-k8s-gateway > myvalues.yaml
+# edit myvalues.yaml
+$ helm install -f myvalues charts/brigade-k8s-gateway
+```
+
+### Building from Source
+
 You must have the Go toolchain, make, and dep installed. For Docker support, you
 will need to have Docker installed as well. From there:
 
@@ -16,13 +26,42 @@ $ make build
 
 To build a Docker image, you can `make docker-build`.
 
-To install into your cluster:
+## Example
 
+Configuring the gateway is tricky: You don't want to cause a build to trigger
+another build. In your Helm `values.yaml` file you will want to configure your
+filters appropriately.
+
+Here is an example that listens to Pod events that occur in the namespace
+`pequod`.
+
+```yaml
+filters:
+  # Ignore all events coming from kube-system
+  - namespace: kube-system
+    action: reject
+  # Ignore events on Nodes. We just care about Pods
+  - kind: Node
+    action: reject
+  # Ignore "Killing" messages for Pods
+  - kind: Pod
+    reasons:
+      - Killing
+    action: reject
+  # ONLY Listen to events for Pods in this namespace
+  - kind: Pod
+    namespace: pequod
+    action: accept
+  # Reject anything else (don't DOS yourself)
+  - action: reject
 ```
-$ helm inspect values charts/brigade-k8s-gateway > myvalues.yaml
-# edit myvalues.yaml
-$ helm install -f myvalues charts/brigade-k8s-gateway
-```
+
+When it comes to writing `brigade.js` scripts that support this gateway, the event
+fired will be named according to the reason it was fired:
+
+- `starting`: A pod or node is starting up
+- `killing`: Triggered when a pod has been terminated
+- ...
 
 ## Contributing
 
