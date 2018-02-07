@@ -21,8 +21,8 @@ metadata:
     heritage: "{{ .Release.Service }}"
 rules:
 - apiGroups: [""]
-  resources: ["secrets"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  resources: ["*"]
+  verbs: ["list", "watch"]
 ---
 kind: RoleBinding
 apiVersion: {{ template "gateway.rbac.version" }}

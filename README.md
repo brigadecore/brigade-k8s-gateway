@@ -1,5 +1,8 @@
 # Brigade Kubernetes Gateway
 
+**Experimental:** This should not be used in production. Misconfiguration can
+consume massive amounts of cluster resources.
+
 This is a Brigade gateway that listens to the Kubernetes event stream and triggers
 events inside of Brigade.
 
@@ -26,7 +29,7 @@ $ make build
 
 To build a Docker image, you can `make docker-build`.
 
-## Example
+## Configuring
 
 Configuring the gateway is tricky: You don't want to cause a build to trigger
 another build. In your Helm `values.yaml` file you will want to configure your
@@ -56,12 +59,65 @@ filters:
   - action: reject
 ```
 
-When it comes to writing `brigade.js` scripts that support this gateway, the event
-fired will be named according to the reason it was fired:
+For example, the following kinds (and more) produce events
 
-- `starting`: A pod or node is starting up
-- `killing`: Triggered when a pod has been terminated
-- ...
+- Node
+- Pod
+- CronJob
+- Job
+- Deployment
+- ReplicaSet
+
+The list of reasons is unconstrained (the value is a string in the Kubernetes
+API). But here are a few examples
+
+
+- Node `Starting`: A node is starting up
+- Pod `Killing`: Triggered when a pod has been terminated
+- ReplicaSet `SuccessfulCreate`: Triggered when a ReplicaSet has been created
+
+To make it easier to see what the gateway sees, we log the events. You can use
+`kubectl logs $GATEWAY_POD_NAME` to see the data. HEre's an example log entry
+for a `Pod`'s `Pulled` event:
+
+```
+Processing default/wp-wordpress-69cfcc7544-nmsj5.1510e390827104e3: {
+  "metadata": {
+    "name": "wp-wordpress-69cfcc7544-nmsj5.1510e390827104e3",
+    "namespace": "default",
+    "selfLink": "/api/v1/namespaces/default/events/wp-wordpress-69cfcc7544-nmsj5.1510e390827104e3",
+    "uid": "c2e459a8-0b9d-11e8-850f-080027ff61a5",
+    "resourceVersion": "95112",
+    "creationTimestamp": "2018-02-07T00:28:04Z"
+  },
+  "involvedObject": {
+    "kind": "Pod",
+    "namespace": "default",
+    "name": "wp-wordpress-69cfcc7544-nmsj5",
+    "uid": "ac2aa534-0b9d-11e8-850f-080027ff61a5",
+    "apiVersion": "v1",
+    "resourceVersion": "95051",
+    "fieldPath": "spec.containers{wp-wordpress}"
+  },
+  "reason": "Pulled",
+  "message": "Container image \"bitnami/wordpress:4.9.1-r0\" already present on machine",
+  "source": {
+    "component": "kubelet",
+    "host": "minikube"
+  },
+  "firstTimestamp": "2018-02-07T00:28:04Z",
+  "lastTimestamp": "2018-02-07T00:28:04Z",
+  "count": 1,
+  "type": "Normal"
+}
+```
+
+### RBAC
+
+If you are running with RBAC, you will need to write roles and role bindings for
+the namespaces you want this service to attach to. The chart includes a role/role
+binding for the `default` namespace. You may use this as a template.
+
 
 ## Contributing
 

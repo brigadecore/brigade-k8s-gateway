@@ -15,4 +15,4 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "brigade.rbac.version" }}rbac.authorization.k8s.io/v1beta1{{ end -}}
+{{- define "gateway.rbac.version" }}rbac.authorization.k8s.io/v1beta1{{ end -}}
