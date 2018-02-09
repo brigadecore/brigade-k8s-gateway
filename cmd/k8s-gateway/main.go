@@ -248,6 +248,8 @@ func (this *gateway) createSecret(e *v1.Event) error {
 	}
 
 	// FIXME: This should be removed when the worker is fixed
+	// Right now, the worker is not correctly falling back to the VCS to get
+	// its brigade.js
 	proj, err := this.store.GetProject(this.config.Project)
 	if err != nil {
 		return err
