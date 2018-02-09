@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"k8s.io/api/core/v1"
@@ -233,20 +235,51 @@ func (this *gateway) acceptEvent(e *v1.Event) bool {
 }
 
 func (this *gateway) createSecret(e *v1.Event) error {
-	//name := fmt.Sprintf("%s:%s", e.InvolvedObject.Kind, e.Reason)
+	name := fmt.Sprintf("%s:%s", e.InvolvedObject.Kind, e.Reason)
 	// If the payload fails to marshal, we send along
 	// without a payload.
 	payload, _ := json.Marshal(e)
 	b := &brigade.Build{
 		ProjectID: this.config.Project,
-		Type:      e.Reason,
+		Type:      name,
 		Provider:  "k8s-gateway",
 		Commit:    "master",
 		Payload:   payload,
 	}
+
+	// FIXME: This should be removed when the worker is fixed
+	proj, err := this.store.GetProject(this.config.Project)
+	if err != nil {
+		return err
+	}
+	script, err := githubBrigadeJS(proj.Repo.Name, "master")
+	if err != nil {
+		return err
+	}
+	b.Script = script
+	// END FIX
+
 	j, _ := json.MarshalIndent(b, "", "  ")
 	log.Printf("Build: %s\n", j)
 	return this.store.CreateBuild(b)
+}
+
+func githubBrigadeJS(project, commit string) ([]byte, error) {
+	// https://raw.githubusercontent.com/Azure/brigade/master/brigade.js
+	project = strings.Replace(project, "github.com/", "", 1)
+	url := fmt.Sprintf("https://raw.githubusercontent.com/%s/%s/brigade.js", project, commit)
+	log.Printf("Fetching %s", url)
+	res, err := http.Get(url)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		return []byte{}, fmt.Errorf("could not get %s: %s", url, res.Status)
+	}
+
+	defer res.Body.Close()
+	return ioutil.ReadAll(res.Body)
 }
 
 func (this *gateway) handleErr(err error, key interface{}) {

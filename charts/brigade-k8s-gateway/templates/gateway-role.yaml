@@ -21,6 +21,9 @@ metadata:
     heritage: "{{ .Release.Service }}"
 rules:
 - apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["list", "watch", "get", "create"]
+- apiGroups: [""]
   resources: ["*"]
   verbs: ["list", "watch"]
 ---
