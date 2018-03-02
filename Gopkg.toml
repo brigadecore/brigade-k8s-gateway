@@ -23,7 +23,7 @@
 
 [[constraint]]
   name = "github.com/Azure/brigade"
-  version = "0.7.0"
+  version = "0.10.0"
 
 [[constraint]]
   name = "k8s.io/api"
