@@ -243,7 +243,7 @@ func (this *gateway) createSecret(e *v1.Event) error {
 		ProjectID: this.config.Project,
 		Type:      name,
 		Provider:  "k8s-gateway",
-		Commit:    "master",
+		Revision:  &brigade.Revision{Ref: "refs/heads/master"},
 		Payload:   payload,
 	}
 

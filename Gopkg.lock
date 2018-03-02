@@ -3,9 +3,9 @@
 
 [[projects]]
   name = "github.com/Azure/brigade"
-  packages = ["pkg/brigade","pkg/storage/kube"]
-  revision = "387aacc384d5824810afad8ef5660d2fb164860f"
-  version = "v0.7.0"
+  packages = ["pkg/brigade","pkg/storage","pkg/storage/kube"]
+  revision = "6913b2703df943fed7a135b671f3efdafd92dbf3"
+  version = "v0.10.0"
 
 [[projects]]
   name = "github.com/PuerkitoBio/purell"
@@ -230,6 +230,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "acb4bf8b41b983d2d2c265ae6b520b289e491884158b82f7715255b8a873ad49"
+  inputs-digest = "ee52229bde48b30d0cdf617a258fc8db8555c713c7fe88aa914e6d4d75daffdd"
   solver-name = "gps-cdcl"
   solver-version = 1
