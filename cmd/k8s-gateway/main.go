@@ -35,15 +35,17 @@ func init() {
 
 func main() {
 	var (
-		kubeconfig string
-		master     string
-		namespace  string
-		configFile string
+		kubeconfig     string
+		master         string
+		namespace      string
+		buildNamespace string
+		configFile     string
 	)
 
 	flag.StringVar(&kubeconfig, "kubeconfig", "", "absolute path to the kubeconfig file")
 	flag.StringVar(&master, "master", "", "master url")
-	flag.StringVar(&namespace, "namespace", defaultNamespace(), "kubernetes namespace")
+	flag.StringVar(&namespace, "namespace", defaultNamespace(), "namespace to watch for kubernetes events")
+	flag.StringVar(&buildNamespace, "build-namespace", defaultNamespace(), "namespace to create brigade builds in")
 	flag.StringVar(&configFile, "config", defaultConfig(), "path to JSON configuration file. If no file is passed, you get to drink from the fire hose.")
 	flag.Parse()
 
@@ -75,7 +77,7 @@ func main() {
 	// TODO: We need a way of passing in appropriate filter information here.
 	gw := newGateway(clientset, namespace)
 	gw.config = filters
-	gw.store = kube.New(clientset, namespace)
+	gw.store = kube.New(clientset, buildNamespace)
 	log.Printf("Listening in namespace %q for new events", namespace)
 
 	// Now let's start the controller
