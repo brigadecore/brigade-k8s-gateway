@@ -10,12 +10,16 @@ Issues for Brigade projects are all tracked [on the main Brigade project](https:
 
 ## Installation
 
+The [Brigade K8s Gateway Helm Chart][brigade-k8s-gateway-chart] is hosted at the
+[Azure/brigade-charts][brigade-charts] repository.
+
 To install the latest image into your cluster:
 
 ```
-$ helm inspect values charts/brigade-k8s-gateway > myvalues.yaml
+$ helm repo add brigade https://azure.github.io/brigade-charts
+$ helm inspect values brigade/brigade-k8s-gateway > myvalues.yaml
 # edit myvalues.yaml
-$ helm install -f myvalues charts/brigade-k8s-gateway
+$ helm install -f myvalues brigade/brigade-k8s-gateway
 ```
 
 ### Building from Source
@@ -132,3 +136,6 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+[brigade-charts]: https://github.com/Azure/brigade-charts
+[brigade-k8s-gateway-chart]: https://github.com/Azure/brigade-charts/tree/master/charts/brigade-k8s-gateway
