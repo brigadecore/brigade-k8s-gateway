@@ -21,9 +21,9 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/workqueue"
 
-	"github.com/Azure/brigade/pkg/brigade"
-	"github.com/Azure/brigade/pkg/storage"
-	"github.com/Azure/brigade/pkg/storage/kube"
+	"github.com/brigadecore/brigade/pkg/brigade"
+	"github.com/brigadecore/brigade/pkg/storage"
+	"github.com/brigadecore/brigade/pkg/storage/kube"
 )
 
 // This is adapted from the Brigade controller.

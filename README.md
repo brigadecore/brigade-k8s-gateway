@@ -6,17 +6,17 @@ consume massive amounts of cluster resources.
 This is a Brigade gateway that listens to the Kubernetes event stream and triggers
 events inside of Brigade.
 
-Issues for Brigade projects are all tracked [on the main Brigade project](https://github.com/Azure/brigade/issues).
+Issues for Brigade projects are all tracked [on the main Brigade project](https://github.com/brigadecore/brigade/issues).
 
 ## Installation
 
 The [Brigade K8s Gateway Helm Chart][brigade-k8s-gateway-chart] is hosted at the
-[Azure/brigade-charts][brigade-charts] repository.
+[brigadecore/charts][charts] repository.
 
 To install the latest image into your cluster:
 
 ```
-$ helm repo add brigade https://azure.github.io/brigade-charts
+$ helm repo add brigade https://brigadecore.github.io/charts
 $ helm inspect values brigade/brigade-k8s-gateway > myvalues.yaml
 # edit myvalues.yaml
 $ helm install -f myvalues brigade/brigade-k8s-gateway
@@ -137,5 +137,5 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-[brigade-charts]: https://github.com/Azure/brigade-charts
-[brigade-k8s-gateway-chart]: https://github.com/Azure/brigade-charts/tree/master/charts/brigade-k8s-gateway
+[charts]: https://github.com/brigadecore/charts
+[brigade-k8s-gateway-chart]: https://github.com/brigadecore/charts/tree/master/charts/brigade-k8s-gateway

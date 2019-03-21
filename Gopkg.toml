@@ -22,7 +22,7 @@
 
 
 [[constraint]]
-  name = "github.com/Azure/brigade"
+  name = "github.com/brigadecore/brigade"
   version = "0.10.0"
 
 [[constraint]]
