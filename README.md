@@ -123,19 +123,15 @@ the namespaces you want this service to attach to. The chart includes a role/rol
 binding for the `default` namespace. You may use this as a template.
 
 
-## Contributing
+# Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+This Brigade project accepts contributions via GitHub pull requests. This document outlines the process to help get your contribution accepted.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Signed commits
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+A DCO sign-off is required for contributions to repos in the brigadecore org.  See the documentation in
+[Brigade's Contributing guide](https://github.com/brigadecore/brigade/blob/master/CONTRIBUTING.md#signed-commits)
+for how this is done.
 
 [charts]: https://github.com/brigadecore/charts
 [brigade-k8s-gateway-chart]: https://github.com/brigadecore/charts/tree/master/charts/brigade-k8s-gateway
