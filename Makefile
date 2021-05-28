@@ -8,9 +8,9 @@ build:
 .PHONY: docker-build
 docker-build:
 	GOOS=linux GOARCH=amd64 go build -o rootfs/k8s-gateway ./cmd/...
-	docker build -t deis/brigade-k8s-gateway:latest .
+	docker build -t brigadecore/brigade-k8s-gateway:latest .
 
 # You must be logged into DOCKER_REGISTRY before you can push.
 .PHONY: docker-push
 docker-push:
-	docker push deis/brigade-k8s-gateway
+	docker push brigadecore/brigade-k8s-gateway
